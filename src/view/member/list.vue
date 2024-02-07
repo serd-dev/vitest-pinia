@@ -1,6 +1,12 @@
 <template>
   <span>Member</span>
-  <v-btn class="add-member" prepend-icon="$plus" @click="$router.push('/add')" variant="outlined" color="green darken-3">
+  <v-btn
+    class="add-member"
+    prepend-icon="$plus"
+    @click="$router.push('/add')"
+    variant="outlined"
+    color="green darken-3"
+  >
     add
   </v-btn>
   <v-data-table
@@ -8,10 +14,13 @@
     :items="members"
     item-key="id"
     :loading="loading"
+    :show-select="true"
+    dense
     class="custom-table"
-    header-color="primary" 
   >
+
     <template v-slot:item="{ item }">
+     
       <tr>
         <td>{{ item.firstname }}</td>
         <td>{{ item.lastname }}</td>
@@ -30,12 +39,20 @@
 import { usememberStore } from "../../stores/memberStore";
 import { ref, onMounted } from "vue";
 
+// const headers = [
+//   { title: "First Name", align: "center", key: "firstname" },
+//   { title: "Last Name", align: "center", key: "lastname" },
+//   { title: "Gender", align: "center", key: "gender" },
+//   { title: "Address", align: "center", key: "address" },
+//   { title: "action", align: "center", key: "action" },
+// ];
+
 const headers = [
-  { title: "First Name", align: "center", key: "firstname"},
-  { title: "Last Name", align: "center", key: "lastname" },
-  { title: "Gender", align: "center", key: "gender" },
-  { title: "Address", align: "center", key: "address" },
-  { title: "del", align: "center", key: "del" },
+  { text: "Actions", align: "center", sortable: false },
+  { text: "First Name", align: "center", value: "firstname" },
+  { text: "Last Name", align: "center", value: "lastname" },
+  { text: "Gender", align: "center", value: "gender" },
+  { text: "Address", align: "center", value: "address" },
 ];
 
 const members = ref([]); // เก็บข้อมูลสมาชิกที่ดึงมาจาก API
@@ -69,11 +86,10 @@ onMounted(loadMembers);
 .custom-table {
   font-size: 18px;
   border-radius: 3px;
-  width: 85%;
+  width: 80%;
   border: solid 1px rgb(166, 166, 166);
   margin: 1rem;
   height: 650px;
-  /* background: red; */
 }
 .add-member {
   margin-left: 72rem;
