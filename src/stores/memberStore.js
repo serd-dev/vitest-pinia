@@ -7,8 +7,31 @@ export const usememberStore = defineStore("member", {
   }),
   actions: {
     async loadMember() {
-      const responese = await axios.get(`${BASE_URL}/Member`);
-      this.member = responese.data;
+      try {
+        const responese = await axios.get(`${BASE_URL}/Member`);
+        this.member = responese.data;
+      } catch (error) {
+        console.log('error',error);
+      }
     },
+
+    async addMember(dataMember) {
+      try {
+        const responese = await axios.post(`${BASE_URL}/Member`, dataMember);
+        console.log("add Member complete");
+        this.member = responese.data;
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
+
+    async removeMember(id){
+      try {
+        const responese = await axios.delete(`${BASE_URL}/Member/${id}`)
+        console.log("delete member complete");
+      } catch (error) {
+        console.log('error',error);
+      }
+    }
   },
 });

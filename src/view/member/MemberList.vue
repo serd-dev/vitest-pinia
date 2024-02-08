@@ -5,7 +5,7 @@
   </v-btn>
   <v-data-table
     :headers="headers"
-    :items="members"
+    :items="memberStore.member"
     item-key="id"
     :loading="loading"
     class="custom-table"
@@ -19,7 +19,7 @@
         <td>{{ item.address }}</td>
         <td>
           <v-icon @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon @click="deleteItem(item)">mdi-delete</v-icon>
+          <v-icon @click="deleltemember(item.id)">mdi-delete</v-icon>
         </td>
       </tr>
     </template>
@@ -37,29 +37,40 @@ const headers = [
   { title: "Address", align: "center", key: "address" },
   { title: "del", align: "center", key: "del" },
 ];
+const memberStore = usememberStore();
 
-const members = ref([]); // เก็บข้อมูลสมาชิกที่ดึงมาจาก API
 const loading = ref(true); // สถานะการโหลดข้อมูล
-
-const loadMembers = async () => {
-  const memberStore = usememberStore();
+onMounted(async()=>{
+  await memberStore.loadMember()
   loading.value = true;
-  await memberStore.loadMember();
-  members.value = memberStore.member;
-  loading.value = false;
-};
 
-const editItem = (item) => {
+  loading.value = false;
+})
+// const loadMembers = async () => {
+
+//   await memberStore.loadMember();
+ 
+// };
+
+const editItem =(item) => {
+
   // ให้แสดงโต้ตอบหรือหน้าแก้ไขข้อมูลสมาชิกที่นี่
   console.log("Edit item:", item);
 };
 
-const deleteItem = (item) => {
+const deleltemember =async (id) => {
   // ให้ลบข้อมูลสมาชิกที่นี่
-  console.log("Delete item:", item);
+  try {
+    await memberStore.removeMember(id)
+    await memberStore.loadMember()
+    // console.log(memberStore.member);
+    alert("ລົບຂໍ້ມູນແລ້ວ")
+  } catch (error) {
+    console.log('error',error);
+  }
+  // console.log("Delete item:",id);
 };
 
-onMounted(loadMembers);
 </script>
 
 <style scoped>
@@ -69,7 +80,7 @@ onMounted(loadMembers);
 .custom-table {
   font-size: 18px;
   border-radius: 3px;
-  width: 85%;
+  width: 80%;
   border: solid 1px rgb(166, 166, 166);
   margin: 1rem;
   height: 650px;
