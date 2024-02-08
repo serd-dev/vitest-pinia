@@ -18,7 +18,10 @@
         <td>{{ item.gender }}</td>
         <td>{{ item.address }}</td>
         <td>
-          <v-icon @click="editItem(item)">mdi-pencil</v-icon>
+          <router-link :to="{name:'memberedit', params:{id:item.id}}">
+            <v-icon>mdi-pencil</v-icon>
+          </router-link>
+          
           <v-icon @click="deleltemember(item.id)">mdi-delete</v-icon>
         </td>
       </tr>
@@ -41,7 +44,7 @@ const memberStore = usememberStore();
 
 const loading = ref(true); // สถานะการโหลดข้อมูล
 onMounted(async()=>{
-  await memberStore.loadMember()
+  await memberStore.loadMembers()
   loading.value = true;
 
   loading.value = false;
@@ -62,7 +65,7 @@ const deleltemember =async (id) => {
   // ให้ลบข้อมูลสมาชิกที่นี่
   try {
     await memberStore.removeMember(id)
-    await memberStore.loadMember()
+    await memberStore.loadMembers()
     // console.log(memberStore.member);
     alert("ລົບຂໍ້ມູນແລ້ວ")
   } catch (error) {

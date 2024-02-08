@@ -61,7 +61,7 @@ const memberStore = usememberStore()
 const router = useRouter()
 onMounted(async()=>{
   await memberStore.addMember()
-  await memberStore.loadMember()
+  await memberStore.loadMembers()
 })
 
 const addMember= async()=>{
@@ -73,6 +73,7 @@ const addMember= async()=>{
   }
   // console.log(dataMember);
   await memberStore.addMember(dataMember)
+  await memberStore.loadMembers()
   alert(' ບັນທຶກຂໍ້ມູນຮຽບຮ້ອຍ')
   router.push('/list')
 }

@@ -3,6 +3,7 @@ import HelloWorld from "../components/HelloWorld.vue";
 import DashBoard from "../layout/DashBoard.vue";
 import MemberList from "../view/member/MemberList.vue";
 import Memberadd from "../view/member/Memberadd.vue";
+import Memberedit from "../view/member/Memberedit.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,6 +26,11 @@ const router = createRouter({
           path: "/add",
           name: "add",
           component: Memberadd,
+        },
+        {
+          path: "/memberedit/:id/edit",
+          name: "memberedit",
+          component: Memberedit,
         },
       ],
     },
